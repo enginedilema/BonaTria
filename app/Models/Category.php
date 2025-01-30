@@ -9,4 +9,5 @@ class Category extends Model
 {
     /** @use HasFactory<\Database\Factories\CategoryFactory> */
     use HasFactory;
+    protected $fillable = ['mercadona_id', 'name', 'mercadona_parent_id'];
 }
