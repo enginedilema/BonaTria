@@ -10,3 +10,4 @@ Route::get('/', function () {
 
 Route::get('/importMercadona', [CategoryController::class,'getCategoryFromMercadona']);
 Route::get('/importProductFromMercadona', [ProductController::class,'getProductFromMercadona']);
+Route::get('/readEANFromProduct', [ProductController::class,'readEANFromProduct']);

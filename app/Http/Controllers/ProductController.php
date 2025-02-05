@@ -119,4 +119,24 @@ if ($response->successful()) {
 
         }
     }
+
+
+    public function readEANFromProduct(){
+
+        $products = Product::whereNull('ean')
+                    ->orderBy('updated_at', 'asc')
+                    ->limit(5)
+                    ->get();
+        foreach($products as $product){
+            $url = "https://tienda.mercadona.es/api/products/".$product->mercadona_id;
+            var_dump($url);
+            $response = Http::get($url);
+            if ($response->successful()) {
+                $data = $response->json();
+                var_dump($data);
+                $product->ean = $data['ean'];
+                $product->save();
+            } 
+        }
+    }
 }

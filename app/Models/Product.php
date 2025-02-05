@@ -11,6 +11,7 @@ class Product extends Model
     use HasFactory;
     protected $fillable = [
         'slug',
+        'mercadona_id',
         'name',
         'packaging',
         'published',
@@ -22,5 +23,6 @@ class Product extends Model
         'tax_percentage',
         'previous_unit_price',
         'category_id',
+        'ean',
     ];
 }
