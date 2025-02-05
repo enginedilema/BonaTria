@@ -67,9 +67,13 @@ class ProductController extends Controller
     }
 
     public function getProductFromMercadona(){
-        $categories = Category::whereNotNull('mercadona_parent_id')->limit(1)->get();
+        $categories = Category::whereNotNull('mercadona_parent_id')
+                        ->orderBy('updated_at', 'asc')
+                        ->limit(1)
+                        ->get();
     
         foreach($categories as $category){
+            $category->touch();
             $url = "https://tienda.mercadona.es/api/categories/".$category->mercadona_id;
             $response = Http::get($url);
 // Verificar si la solicitud fue exitosa
