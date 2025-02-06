@@ -15,7 +15,10 @@ class ProductController extends Controller
      */
     public function index()
     {
-        //
+        $products = Product::select('ean','name','thumbnail','unit_price')
+                            ->whereNotNull('json_off')
+                            ->get();
+        return response()->json($products);
     }
 
     /**
@@ -37,9 +40,12 @@ class ProductController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Product $product)
+    public function show(String $ean)
     {
-        //
+        $product = Product::where('ean', $ean)
+                    ->whereNotNull('json_off')
+                    ->first();
+        return response()->json($product);
     }
 
     /**
@@ -137,6 +143,21 @@ if ($response->successful()) {
                 $product->ean = $data['ean'];
                 $product->save();
             } 
+        }
+    }
+
+    public function readFromOpenFoodFacts(){
+        $product = Product::whereNotNull('ean')
+                    ->whereNull('json_off')
+                    ->inRandomOrder()
+                    ->first();
+        $url = "https://world.openfoodfacts.org/api/v3/product/".$product->ean.".json";
+        $response = Http::get($url);
+        if ($response->successful()) {
+            $data = $response->json();
+            var_dump($data);
+            $product->json_off = $data;
+            $product->save();
         }
     }
 }

@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::table('products', function (Blueprint $table) {
             $table->string('ean')->nullable();
+            $table->json('json_off')->nullable()->default(null);
+
         });
     }
 
